@@ -7,13 +7,21 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { NavBar } from "@/components/custom";
+import { ThemeProvider } from "@/components/theme-provider";
 export default function Layout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <NavBar />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NavBar />
+          {children}
+        </ThemeProvider>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -4,7 +4,7 @@ import { CustomTrigger } from "../custom-trigger";
 // INTERNAL IMPORT
 import { CrowdFundingContext } from "@/context/CroudFunding";
 import { Logo, Menu } from "@/components/custom/index";
-
+import { ModeToggle } from "../mode-toggle";
 const NavBar = () => {
   const { currentAccount, connectWallet } = useContext(CrowdFundingContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +18,7 @@ const NavBar = () => {
   // ];
 
   return (
-    <div className="flex px-4 py-5 items-start justify-between ">
+    <div className="flex px-4 py-2 items-start justify-between ">
       <CustomTrigger className="" />
       <div className="flex justify-between space-x-6">
         <div className="flex items-center">
@@ -35,6 +35,7 @@ const NavBar = () => {
                 </a>
               </li>
             ))} */}
+            <ModeToggle />
           </ul>
         </div>
         {!currentAccount && (
@@ -96,18 +97,7 @@ const NavBar = () => {
                 </div>
                 <nav>
                   <ul className="space-y-4">
-                    {menuList.map((el, i) => (
-                      <li key={i + 1}>
-                        <a
-                          onClick={() => router.push(el.path)}
-                          aria-label={el.name}
-                          title={el.name}
-                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400 cursor-pointer"
-                        >
-                          {el.name}
-                        </a>
-                      </li>
-                    ))}
+                    <li></li>
                     <li>
                       <button
                         onClick={() => connectWallet()}

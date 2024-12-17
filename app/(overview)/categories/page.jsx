@@ -1,58 +1,5 @@
-// "use client";
+"use client";
 
-// import React from "react";
-// import { useRouter } from "next/navigation";
-// import { Dices } from "lucide-react";
-
-// const categories = [
-//   { name: "Games", icon: <Dices size={50} />, path: "games" },
-//   {
-//     name: "Technologies",
-//     icon: "/icons/flaticon/technologies.svg",
-//     path: "technologies",
-//   },
-//   { name: "Film", icon: "/icons/flaticon/film.svg", path: "film" },
-// ];
-
-// export default function CategorySelection() {
-//   const router = useRouter();
-
-//   return (
-//     <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-//       <div className="flex flex-col items-center justify-between xl:flex-row">
-//         <div className="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
-//           <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight md:mb-12 sm:text-5xl sm:leading-none">
-//             Browse Fundraisers by Category
-//           </h2>
-//           <p className="max-w-xl mb-4 text-base md:text-lg">
-//             Explore campaigns around the world and contribute to causes you care
-//             about.
-//           </p>
-//         </div>
-//       </div>
-//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-//         {categories.map((category) => (
-//           <div
-//             key={category.name}
-//             className="flex flex-col items-center cursor-pointer"
-//             onClick={() => router.push(`/category/${category.path}`)}
-//           >
-//             <div className="w-32 h-32 p-4 bg-stone-200 rounded-lg flex items-center justify-center hover:border hover:border-black transition">
-//               {category.icon}
-//             </div>
-//             <h2 className="mt-2 text-sm font-medium text-gray-800">
-//               {category.name}
-//             </h2>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-import Link from "next/link";
-import { categories } from "@/data/temp";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -62,9 +9,21 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function CategoriesPage() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
@@ -112,7 +71,7 @@ export default function CategoriesPage() {
                 <CardFooter className="flex justify-between items-center">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Users className="w-4 h-4 mr-1" />
-                    <span>{category.projects.length} projects</span>
+                    <span>{category.projects_count || 0} projects</span>
                   </div>
                   <Button
                     variant="ghost"
